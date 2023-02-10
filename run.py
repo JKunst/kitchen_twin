@@ -5,7 +5,7 @@ from typing import List
 
 from PIL import Image, ImageDraw
 
-random.seed(12)
+random.seed(2021)
 CANVAS_WIDTH = 5000
 CANVAS_HEIGHT = 2400
 color_map = {0: '#f4f4f4', 1: '#c7c3c0', 2: '#a3a8ae', 3: '#d4beb1', 4: '#80736c'}
@@ -112,7 +112,7 @@ class Wall:
         self.wall_summary.loc['Beschikbaar'] = [13*30,3*30,3*30,3*30,1*30]
         self.wall_summary.loc['Overblijvend'] = self.wall_summary.loc['Beschikbaar'] - self.wall_summary.loc['Totaal']
         #assert self.wall_summary['Overblijvend'].min()<0
-        print(self.wall_summary)
+        #print(self.wall_summary)
         im.save(filename)
 
 
@@ -122,7 +122,7 @@ class Wall:
     #     draw_tiling(filename='first_wall.png')
     #     # draw_tiling(generate_hexagons,  filename='hexagons.png')
 
-tile = Tile(132, 114)
+tile = Tile(132+3, 114+3)
 
 SCHEMA = [[1, 0, 0, 0, 0],
           [0, 1, 0, 0, 0],
@@ -133,8 +133,8 @@ SCHEMA = [[1, 0, 0, 0, 0],
           [1, 1, 1, 1, 1]]
 
 
-first_wall = Wall(3000, 7 * 114, tile, SCHEMA)
-first_wall.draw_tiling(filename='first_wall.png')
+#first_wall = Wall(3000, 7 * 114, tile, SCHEMA)
+#first_wall.draw_tiling(filename='first_wall.png')
 
 SCHEMA2 = [[1, 0, 0, 0, 0],
            [0.90, 0.01, 0.02, 0.02, 0.05],
@@ -144,8 +144,8 @@ SCHEMA2 = [[1, 0, 0, 0, 0],
            [0.55, 0.10, 0.15, 0.15, 0.05],
            [0.45, 0.15, 0.15, 0.15, 0.10]
            ]
-second_wall = Wall(3000, 6 * 114, tile, SCHEMA2)
-second_wall.draw_tiling(filename='second_wall.png')
+#second_wall = Wall(3000, 6 * 114, tile, SCHEMA2)
+#second_wall.draw_tiling(filename='second_wall.png')
 
 SCHEMA3 = [
     [0.90, 0.01, 0.02, 0.02, 0.05],
@@ -156,7 +156,7 @@ SCHEMA3 = [
     [0.45, 0.20, 0.15, 0.15, 0.05],
     [0.30, 0.25, 0.20, 0.20, 0.05]
 ]
-third_wall = Wall(3000, 6 * 114, tile, SCHEMA3)
+third_wall = Wall(3600, 6 * 114, tile, SCHEMA3)
 third_wall.draw_tiling(filename='third_wall.png')
 save_aantallen = third_wall.wall_summary.loc['Overblijvend']
 
@@ -173,15 +173,24 @@ SCHEMA4 = [
     [0.10, 0.25, 0.30, 0.30, 0.05],
     [0.10, 0.30, 0.25, 0.30, 0.05]
 ]
-korte_wall = Wall(1000, 10 * 114, tile, SCHEMA4)
+korte_wall = Wall(880, 10 * 114, tile, SCHEMA4)
 korte_wall.draw_tiling(filename='korte_wall.png')
-print(save_aantallen)
-class Test_wall:
-    def __init__(self, test_wall, test_tile):
-        assert test_wall.n_rows == 1
-        assert test_wall.n_tiles_per_row == 2
-        assert test_wall.n_tiles == 2
-
-
-test_wall = Test_wall(Wall(13.2, 11.4, Tile(13.2, 11.4), [1, 1, 1, 1, 1]), Tile(13.2, 11.4))
+korte_wall.wall_summary.loc['Beschikbaar'] = save_aantallen
+korte_wall.wall_summary.loc['Overblijvend'] = save_aantallen - korte_wall.wall_summary.loc['Totaal']
+print(korte_wall.wall_summary)
+save_aantallen_nakort = korte_wall.wall_summary.loc['Overblijvend']
+# class Test_wall:
+#     def __init__(self, test_wall, test_tile):
+#         assert test_wall.n_rows == 1
+#         assert test_wall.n_tiles_per_row == 2
+#         assert test_wall.n_tiles == 2
+#
+#
+# test_wall = Test_wall(Wall(13.2, 11.4, Tile(13.2, 11.4), [1, 1, 1, 1, 1]), Tile(13.2, 11.4))
 # t.create_row()
+
+koffie_stuk = Wall(1060, 6 * 114, tile, SCHEMA3)
+koffie_stuk.draw_tiling(filename='koffie.png')
+koffie_stuk.wall_summary.loc['Beschikbaar'] = save_aantallen_nakort
+koffie_stuk.wall_summary.loc['Overblijvend'] = save_aantallen_nakort - koffie_stuk.wall_summary.loc['Totaal']
+print(koffie_stuk.wall_summary)
